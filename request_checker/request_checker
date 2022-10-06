@@ -1,0 +1,32 @@
+#!/bin/bash
+
+function  check_input_params ()
+{
+    if [ "$PARAM" == "" ]
+    then
+        echo "usage: $NAMESCRIPT <servers_list>"
+	exit 1
+    fi
+}
+
+PARAM=$1
+check_input_params
+
+if [ $(which curl) -eq "" ]
+then
+    echo "Curl is not installed"
+fi
+
+SERVERS=$1
+DATE=$(date '+%Y-%m-%d %H:%M:%S')
+while :
+do
+    while read line                                                                                                                                 
+    do                                                                                                                                          
+	ANSWER=`curl http://${line}/api/count | awk '{print $2}' | tr -d "}"`
+	echo "$DATE $line $ANSWER"                                                                                                                                               
+    done < $SERVERS
+
+    sleep 60
+done
+
