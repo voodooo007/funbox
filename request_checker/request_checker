@@ -1,5 +1,7 @@
 #!/bin/bash
 
+NAMESCRIPT="${0##*/}"
+
 function  check_input_params ()
 {
     if [ "$PARAM" == "" ]
@@ -12,7 +14,7 @@ function  check_input_params ()
 PARAM=$1
 check_input_params
 
-if [ $(which curl) -eq "" ]
+if [ ! -x "$(which curl)" ]
 then
     echo "Curl is not installed"
 fi
